@@ -1,0 +1,77 @@
+<!-- /*
+ * (c) 2021 Copyright, Real-Time Innovations, Inc. (RTI) All rights reserved.
+ *
+ * RTI grants Licensee a license to use, modify, compile, and create derivative
+ * works of the software solely for use with RTI Connext DDS.  Licensee may
+ * redistribute copies of the software provided that all such copies are
+ * subject to this license. The software is provided "as is", with no warranty
+ * of any type, including any warranty for fitness for any purpose. RTI is
+ * under no obligation to maintain or support the software.  RTI shall not be
+ * liable for any incidental or consequential damages arising out of the use or
+ * inability to use the software.
+ */ -->
+ 
+<?xml version="1.0" encoding="UTF-8"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.0.1/rti_dds_profiles.xsd" version="6.0.1">
+    <types>
+      <enum name="ShapeFillKind">
+        <enumerator name="SOLID_FILL"/>
+        <enumerator name="TRANSPARENT_FILL"/>
+        <enumerator name="HORIZONTAL_HATCH_FILL"/>
+        <enumerator name="VERTICAL_HATCH_FILL"/>
+      </enum>
+      <struct name="ShapeType" extensibility="appendable">
+        <member name="color" type="string" stringMaxLength="128" key="true"/>
+        <member name="x" type="int32"/>
+        <member name="y" type="int32"/>
+        <member name="shapesize" type="int32"/>
+      </struct>
+      <struct name="ShapeTypeExtended" baseType="ShapeType">
+        <member name="fillKind" type="nonBasic" nonBasicTypeName="ShapeFillKind"/>
+        <member name="angle" type="float32"/>
+      </struct>
+      <struct name="ShapeTypeExtended3D" baseType="ShapeTypeExtended">
+        <member name="z" type="int32" default="0"/>
+      </struct>
+    </types>
+
+    <qos_library name="ShapeQosLibrary">
+      <qos_profile name="ShapeProfile" base_name="BuiltinQosLib::Generic.BestEffort" is_default_qos="true">
+      </qos_profile>
+    </qos_library>
+
+    <domain_library name="ShapeDomainLibrary">
+      <domain name="ShapeDomain" domain_id="0">
+        <register_type name="t_ShapeType" type_ref="ShapeType"/>
+        <register_type name="t_ShapeType3D" type_ref="ShapeTypeExtended3D"/>
+        <topic name="Square" register_type_ref="t_ShapeType3D"/>
+        <topic name="Circle" register_type_ref="t_ShapeType3D"/>
+        <topic name="Triangle" register_type_ref="t_ShapeType3D"/>
+        <topic name="Cube" register_type_ref="t_ShapeType3D"/>
+        <topic name="Sphere" register_type_ref="t_ShapeType3D"/>
+        <topic name="Pyramid" register_type_ref="t_ShapeType3D"/>
+      </domain>
+    </domain_library>
+
+    <domain_participant_library name="ShapeParticipantLibrary">
+      <domain_participant name="ShapeParticipant" domain_ref="ShapeDomainLibrary::ShapeDomain">
+        <publisher name="publisher">
+          <data_writer name="SquareWriter" topic_ref="Square"/>
+          <data_writer name="CircleWriter" topic_ref="Circle"/>
+          <data_writer name="TriangleWriter" topic_ref="Triangle"/>
+          <data_writer name="CubeWriter" topic_ref="Square"/>
+          <data_writer name="SphereWriter" topic_ref="Circle"/>
+          <data_writer name="PyramidWriter" topic_ref="Triangle"/>
+        </publisher>
+        <subscriber name="subscriber">
+          <data_reader name="SquareReader" topic_ref="Square"/>
+          <data_reader name="CircleReader" topic_ref="Circle"/>
+          <data_reader name="TriangleReader" topic_ref="Triangle"/>
+          <data_reader name="CubeReader" topic_ref="Square"/>
+          <data_reader name="SphereReader" topic_ref="Circle"/>
+          <data_reader name="PyramidReader" topic_ref="Triangle"/>
+        </subscriber>
+      </domain_participant>
+    </domain_participant_library>
+
+</dds>
