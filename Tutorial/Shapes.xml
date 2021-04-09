@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- /*
  * (c) 2021 Copyright, Real-Time Innovations, Inc. (RTI) All rights reserved.
  *
@@ -10,8 +11,7 @@
  * liable for any incidental or consequential damages arising out of the use or
  * inability to use the software.
  */ -->
- 
-<?xml version="1.0" encoding="UTF-8"?>
+
 <dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.0.1/rti_dds_profiles.xsd" version="6.0.1">
     <types>
       <enum name="ShapeFillKind">
